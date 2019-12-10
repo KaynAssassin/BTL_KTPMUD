@@ -220,6 +220,7 @@ export default {
         { path: "/", label: "Trang chủ", icon: "home" },
         { path: "/api/product", label: "Sản phẩm", icon: "list" },
         { path: "/api/category", label: "Chuyên mục", icon: "class" },
+        { path:"/api/brand",label:"Thương hiệu",icon:"book"},
         { path: "/api/customer", label: "Khách hàng", icon: "description" },
         { path: "/api/order", label: "Đơn hàng", icon: "event" },
         { path: "/logout", label: "Đăng xuất", icon: "lock" }

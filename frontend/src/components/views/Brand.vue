@@ -2,7 +2,7 @@
   <div class="aula">
     <div class="formodal">
       <v-dialog v-model="dialog" max-width="800px">
-        <v-btn color="primary" dark slot="activator" class="mb-2">Thêm chủng loại</v-btn>
+        <v-btn color="primary" dark slot="activator" class="mb-2">Thêm thương hiệu</v-btn>
         <v-card>
           <v-card-title>
             <span class="headline">{{ formTitle }}</span>
@@ -11,7 +11,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field label="Tên" v-model="editedItem.category_name"></v-text-field>
+                  <v-text-field label="Tên" v-model="editedItem.brand_name"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -26,13 +26,13 @@
     </div>
     <v-data-table
       :headers="headers"
-      :items="category"
+      :items="brand"
       hide-actions
       class="elevation-1"
     >
       <template slot="items" slot-scope="props">
         <td class="text-xs-left">{{ props.item.id }}</td>
-        <td class="text-xs-left">{{ props.item.category_name }}</td>
+        <td class="text-xs-left">{{ props.item.brand_name }}</td>
         <td class="justify-center layout px-0">
           <v-btn icon class="mx-0" @click="editItem(props.item)">
             <v-icon color="teal">edit</v-icon>
@@ -52,14 +52,14 @@
 <script>
 import apiService from '@/Services/ApiService'
 export default {
-  name: 'category',
+  name: 'brand',
   data () {
     return {
-      category: [],
+      brand: [],
       dialog: false,
       editedIndex: -1,
       editedItem: {
-        category_name: '',
+        brand_name: '',
       },
       headers: [
         {
@@ -72,7 +72,7 @@ export default {
           text: 'Tên',
           align: 'left',
           sortable: true,
-          value: 'category_name'
+          value: 'brand_name'
         },
         { text: 'Actions', value: 'name', sortable: false }
       ]

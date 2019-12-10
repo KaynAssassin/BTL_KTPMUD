@@ -4,6 +4,7 @@ import Home from '@/components/views/Home'
 import Product from '@/components/views/Product'
 import Category from '@/components/views/Category'
 import Customer from '@/components/views/Customer'
+import Brand from '@/components/views/Brand';
 import Order from '@/components/views/Order'
 import Logout from '@/components/views/Logout'
 import Vuetify from 'vuetify'
@@ -40,6 +41,11 @@ export default new Router({
       path: '/api/category',
       name: 'Category',
       component: Category
+    },
+    {
+      path:'/api/brand',
+      name:'Brand',
+      component:Brand
     },
     {
       path: '/api/customer',

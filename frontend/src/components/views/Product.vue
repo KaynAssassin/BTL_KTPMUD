@@ -57,16 +57,16 @@
     </div>
     <v-data-table
       :headers="headers"
-      :items="docentes"
+      :items="products"
       hide-actions
       class="elevation-1"
     >
       <template slot="items" slot-scope="props">
-        <td class="text-xs-left">{{ props.item.iddocente }}</td>
-        <td class="text-xs-left">{{ props.item.name }}</td>
-        <td class="text-xs-left">{{ props.item.apellidos }}</td>
-        <td class="text-xs-left">{{ props.item.edad }}</td>
-        <td class="text-xs-left">{{ props.item.email }}</td>
+        <td class="text-xs-left">{{ props.item.product_name }}</td>
+        <td class="text-xs-left">{{ props.item.brand_name }}</td>
+        <td class="text-xs-left">{{ props.item.category_name }}</td>
+        <td class="text-xs-left">{{ props.item.date_import }}</td>
+        <td class="text-xs-left">{{ props.item.price }}</td>
         <td class="justify-center layout px-0">
           <v-btn icon class="mx-0" @click="editItem(props.item)">
             <v-icon color="teal">edit</v-icon>
@@ -89,7 +89,7 @@ export default {
   name: "Product",
   data() {
     return {
-      docentes: [],
+      products: [],
       dialog: false,
       editedIndex: -1,
       editedItem: {
@@ -101,34 +101,40 @@ export default {
       },
       headers: [
         {
-          text: "UID Docente",
+          text: "ID",
           align: "left",
           sortable: true,
-          value: "iddocente"
+          value: "id"
         },
         {
-          text: "Nombres",
+          text: "Tên sản phẩm",
           align: "left",
           sortable: true,
-          value: "name"
+          value: "product_name"
         },
         {
-          text: "Apellidos",
+          text: "Mã thương hiệu",
           align: "left",
           sortable: false,
-          value: "apellidos"
+          value: "brand_id"
         },
         {
-          text: "Edad",
+          text: "Mã chủng loại",
           align: "left",
           sortable: false,
-          value: "edad"
+          value: "category_id"
         },
         {
-          text: "E-mail",
+          text: "Ngày tạo",
           align: "left",
           sortable: false,
-          value: "email"
+          value: "date_import"
+        },
+        {
+          text: "Giá",
+          align: "left",
+          sortable: false,
+          value: "price"
         },
         { text: "Actions", value: "name", sortable: false }
       ]
