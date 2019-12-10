@@ -66,6 +66,7 @@
             </v-list-tile>
           </v-list>
         </v-menu>
+        <v-btn v-else>{{role}}</v-btn>
         <v-dialog v-model="dialogLogin" max-width="800px">
           <v-card>
             <v-card-text>
@@ -104,11 +105,12 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn depressed large color="primary" @click.prevent="login"
-                >Đăng nhập</v-btn
-              >
+                >Đăng nhập
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
+
         <v-dialog v-model="dialogRegister" max-width="800px">
           <v-card>
             <v-card-text>
@@ -201,8 +203,8 @@ import apiService from "@/Services/ApiService";
 
 export default {
   mounted() {
-   
     this.path = this.$route.path;
+    this.role = this.getCookie("role")
   },
   data() {
     return {
@@ -210,6 +212,7 @@ export default {
       dialogLogin: false,
       dialogRegister: false,
       drawer: null,
+      role: "",
       appTitle: "Trang quản lí ",
       loginTitle: "Login Form",
       path: "/",
@@ -230,7 +233,7 @@ export default {
         last_name: "",
         email: "",
         phone: "",
-        password: "",
+        password: ""
       },
       valid: true,
       valid2: true,
@@ -266,6 +269,21 @@ export default {
     }
   },
   methods: {
+    getCookie(cname) {
+      var name = cname + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var ca = decodedCookie.split(";");
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == " ") {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    },
     login() {
       if (this.$refs.formLogin.validate()) {
         apiService
@@ -280,6 +298,8 @@ export default {
     loginSuccessful(response) {
       this.error = false;
       localStorage.user = JSON.stringify(response.data);
+      document.cookie = "session_id=" + response.data.session_id;
+      document.cookie = "role=" + response.data.role;
       this.$router.replace("/");
       this.$router.go("/");
     },
@@ -297,7 +317,9 @@ export default {
             phone: this.register.phone,
             password: this.register.password
           })
-          .then(response => this.loginSuccessful(response))
+          .then(response => {
+            this.loginSuccessful(response);
+          })
           .catch(response => this.loginFailed(response));
       }
     }

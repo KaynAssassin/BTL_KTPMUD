@@ -13,12 +13,6 @@ module.exports = (sequelize, DataTypes) => {
     avatar: DataTypes.TEXT
   }, {});
   Staff.associate = function(models) {
-    Staff.hasMany(models.Staff,{
-      foreignKey:'manager_id'
-    })
-    Staff.belongsTo(models.Staff,{
-      foreignKey:'manager_id'
-    })
     Staff.belongsTo(models.Store,{
       foreignKey:'store_id'
     })

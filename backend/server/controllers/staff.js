@@ -21,10 +21,38 @@ exports.create = function (req, res) {
     avatar: '',
   }).then(r=>{
       let session_id = uuidv4()
-      // req.session.uid = r.dataValues.id
+      req.session.uid = r.dataValues.id
       req.session.sid = session_id
-      res.cookie("session_id",session_id).json({
-          status:1
+      res.json({
+          status:1,
+          role:'staff',
+          session_id:session_id
       })
   })
+}
+
+exports.login = function(req,res){
+  let pwd = req.body.password;
+  let email = req.body.email
+  let hashPwd = crypto.createHash('sha1')
+  .update(pwd)
+  .digest('hex');
+  Staff.findOne({
+    where:{
+      email:email,
+      password:hashPwd
+    }
+  }).then(result=>{
+    let session_id = uuidv4();
+    req.session.uid = result.dataValues.id;
+    req.session.sid = session_id;
+    res.json({
+      status:1,
+      role:(result.dataValues.role === 1) ? 'admin' : 'staff',
+      session_id:session_id
+    })
+  }).catch(err =>{
+    
+  })
+ 
 }
