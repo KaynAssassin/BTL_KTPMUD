@@ -1,79 +1,20 @@
 <template>
   <div class="horario">
-    <div class="formodal">
-      <v-dialog v-model="dialog" max-width="800px">
-        <v-btn color="primary" dark slot="activator" class="mb-2">New horario</v-btn>
-        <v-card>
-          <v-card-title>
-            <span class="headline">{{ formTitle }}</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field label="UID horario" v-model="editedItem.idhorario"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field label="Hora Inicio" v-model="editedItem.horainit"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field label="Hora Fin" v-model="editedItem.horafin"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field label="Estado" v-model="editedItem.state"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-select
-                    label="UID Aula"
-                    autocomplete
-                    chips
-                    v-model="editedItem.idaula"
-                    :items="aulas"
-                  ></v-select>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-select
-                    label="UID Docente"
-                    autocomplete
-                    chips
-                    v-model="editedItem.iddocente"
-                    :items="docentes"
-                  ></v-select>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-select
-                    label="UID Materia"
-                    autocomplete
-                    chips
-                    v-model="editedItem.idmateria"
-                    :items="materias"
-                  ></v-select>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
-            <v-btn color="blue darken-1" flat @click.native="save">Save</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </div>
     <v-data-table
       :headers="headers"
-      :items="horarios"
+      :items="order"
       hide-actions
       class="elevation-1"
     >
       <template slot="items" slot-scope="props">
-        <td class="text-xs-left">{{ props.item.idhorario }}</td>
-        <td class="text-xs-left">{{ props.item.horainit }}</td>
-        <td class="text-xs-left">{{ props.item.horafin }}</td>
-        <td class="text-xs-left">{{ props.item.state }}</td>
-        <td class="text-xs-left">{{ props.item.idaula }}</td>
-        <td class="text-xs-left">{{ props.item.iddocente }}</td>
-        <td class="text-xs-left">{{ props.item.idmateria }}</td>
+        <td class="text-xs-left">{{ props.item.id }}</td>
+        <td class="text-xs-left">{{ props.item.customer_id }}</td>
+        <td class="text-xs-left">{{ props.item.order_status }}</td>
+        <td class="text-xs-left">{{ props.item.order_date }}</td>
+        <td class="text-xs-left">{{ props.item.required_date }}</td>
+        <td class="text-xs-left">{{ props.item.shipped_date }}</td>
+        <td class="text-xs-left">{{ props.item.store_id }}</td>
+        <td class="text-xs-left">{{ props.item.staff_id }}</td>
         <td class="justify-center layout px-0">
           <v-btn icon class="mx-0" @click="editItem(props.item)">
             <v-icon color="teal">edit</v-icon>
@@ -91,148 +32,142 @@
 </template>
 
 <script>
-import apiService from '@/Services/ApiService'
+import apiService from "@/Services/ApiService";
 export default {
-  name: 'horarios',
-  data () {
+  name: "order",
+  data() {
     return {
-      horarios: [],
-      docentes: [],
-      materias: [],
-      aulas: [],
+      order: [],
       dialog: false,
       editedIndex: -1,
-      editedItem: {
-        idhorario: '',
-        horainit: '',
-        horafin: '',
-        estate: '',
-        idaula: '',
-        iddocente: '',
-        idmateria: ''
-      },
       headers: [
         {
-          text: 'UID horario',
-          align: 'left',
+          text: "ID",
+          align: "left",
           sortable: true,
-          value: 'idhorario'
+          value: "id"
         },
         {
-          text: 'Hora Inicio',
-          align: 'left',
+          text: "Customer ID",
+          align: "left",
           sortable: true,
-          value: 'horainit'
+          value: "customer_id"
         },
         {
-          text: 'Hora Fin',
-          align: 'left',
+          text: "Trạng thái đơn hàng",
+          align: "left",
           sortable: false,
-          value: 'horafin'
+          value: "order_status"
         },
         {
-          text: 'State',
-          align: 'left',
+          text: "Ngày đặt hàng",
+          align: "left",
           sortable: false,
-          value: 'state'
+          value: "order_date"
         },
         {
-          text: 'UID Aula',
-          align: 'left',
+          text: "Ngày yêu cầu",
+          align: "left",
           sortable: false,
-          value: 'idaula'
+          value: "required_date"
         },
         {
-          text: 'UID Docente',
-          align: 'left',
+          text: "Ngày ship",
+          align: "left",
           sortable: false,
-          value: 'iddocente'
+          value: "shipped_date"
         },
         {
-          text: 'UID Materia',
-          align: 'left',
+          text: "Mã cửa hàng",
+          align: "left",
           sortable: false,
-          value: 'idmateria'
+          value: "store_id"
         },
-        { text: 'Actions', value: 'name', sortable: false }
+        {
+          text: "Mã nhân viên",
+          align: "left",
+          sortable: false,
+          value: "staff_id"
+        },
+        { text: "Actions", value: "name", sortable: false }
       ]
-    }
+    };
   },
-  mounted () {
-    this.getData()
+  mounted() {
+    this.getData();
   },
   computed: {
-    formTitle () {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+    formTitle() {
+      return this.editedIndex === -1 ? "New Item" : "Edit Item";
     }
   },
   watch: {
-    dialog (val) {
-      val || this.close()
+    dialog(val) {
+      val || this.close();
     }
   },
   methods: {
-    async getData () {
-      const responseHor = await apiService.fetchHorarios()
-      this.horarios = responseHor.data
-      const responseDoc = await apiService.fetchDocentes()
-      this.docentes = responseDoc.data
-      const responseMat = await apiService.fetchMaterias()
-      this.materias = responseMat.data
-      const responseAu = await apiService.fetchAulas()
-      this.aulas = responseAu.data
+    async getData() {
+      const responseHor = await apiService.fetchorder();
+      this.order = responseHor.data;
+      const responseDoc = await apiService.fetchDocentes();
+      this.docentes = responseDoc.data;
+      const responseMat = await apiService.fetchMaterias();
+      this.materias = responseMat.data;
+      const responseAu = await apiService.fetchAulas();
+      this.aulas = responseAu.data;
     },
 
-    async save () {
+    async save() {
       try {
         if (this.editedIndex === -1) {
-          await apiService.addHorario(this.editedItem)
-          this.horarios.push(this.editedItem)
+          await apiService.addHorario(this.editedItem);
+          this.order.push(this.editedItem);
         } else {
-          await apiService.updateHorario(this.editedItem)
-          Object.assign(this.horarios[this.editedIndex], this.editedItem)
+          await apiService.updateHorario(this.editedItem);
+          Object.assign(this.order[this.editedIndex], this.editedItem);
         }
       } catch (err) {
-        return console.log(err.message)
+        return console.log(err.message);
       } finally {
-        this.close()
+        this.close();
       }
     },
 
-    async deleteHorario (horario) {
-      const $this = this
-      $this.$swal({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
-        if (result.value) {
-          apiService.deleteHorario(horario.idhorario)
-          const index = this.horarios.indexOf(horario)
-          this.horarios.splice(index, 1)
-        }
-      })
+    async deleteHorario(horario) {
+      const $this = this;
+      $this
+        .$swal({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, delete it!"
+        })
+        .then(result => {
+          if (result.value) {
+            apiService.deleteHorario(horario.idhorario);
+            const index = this.order.indexOf(horario);
+            this.order.splice(index, 1);
+          }
+        });
     },
 
-    editItem (item) {
-      this.editedIndex = this.horarios.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialog = true
+    editItem(item) {
+      this.editedIndex = this.order.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
     },
 
-    close () {
-      this.dialog = false
+    close() {
+      this.dialog = false;
       setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      }, 300)
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300);
     }
   }
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

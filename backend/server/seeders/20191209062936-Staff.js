@@ -12,7 +12,6 @@ module.exports = {
       block: false,
       role:1,
       password:"123456",
-      manager_id: 1,
       avatar: "",
       createdAt:new Date(),
       updatedAt:new Date()
@@ -20,6 +19,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Staff', null, {});
+    return queryInterface.bulkDelete('Staffs', null, {});
   }
 };

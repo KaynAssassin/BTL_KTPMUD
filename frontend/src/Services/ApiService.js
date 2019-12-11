@@ -7,24 +7,24 @@ export default {
   addUser (params) {
     return Api().post('/user', params)
   },
-  fetchDocentes () {
-    return Api().get('/docente')
+  fetchBrands () {
+    return Api().get('/brands')
   },
   deleteDocente (id) {
     return Api().delete('/docente/' + id)
   },
-  addDocente (params) {
-    return Api().post('/docente', params)
+  addCategory (params) {
+    return Api().post('/category', params)
   },
-  updateDocente (params) {
-    return Api().put('/docente/' + params.iddocente, params)
+  updateCategory (params) {
+    return Api().put('/category/?id=' + params.id,params)
   },
 
-  fetchAulas () {
-    return Api().get('/aula')
+  fetchCategory () {
+    return Api().get('/category')
   },
-  deleteAula (id) {
-    return Api().delete('/aula/' + id)
+  deleteCategory (id) {
+    return Api().delete('/category/?id=' + id)
   },
   addAula (params) {
     return Api().post('/aula', params)
