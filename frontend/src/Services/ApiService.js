@@ -10,9 +10,18 @@ export default {
   fetchBrands () {
     return Api().get('/brands')
   },
-  deleteDocente (id) {
-    return Api().delete('/docente/' + id)
+  addBrand (params) {
+    return Api().post('/brands/' , params)
   },
+
+  updateBrand(params){
+    return Api().put('/brands/?id=' + params.id,params)
+  },
+
+  deleteBrand(id){
+    return Api().delete('/brands/?id=' + id)
+  },
+
   addCategory (params) {
     return Api().post('/category', params)
   },
@@ -26,18 +35,18 @@ export default {
   deleteCategory (id) {
     return Api().delete('/category/?id=' + id)
   },
-  addAula (params) {
-    return Api().post('/aula', params)
+  addProduct (params) {
+    return Api().post('/product', params)
   },
-  updateAula (params) {
-    return Api().put('/aula/' + params.idaula, params)
+  updateProduct (params) {
+    return Api().put('/product/?id=' + params.id, params)
   },
 
-  fetchMaterias () {
-    return Api().get('/materia')
+  fetchProduct () {
+    return Api().get('/product')
   },
-  deleteMateria (id) {
-    return Api().delete('/materia/' + id)
+  deleteProduct (id) {
+    return Api().delete('/product/?id=' + id)
   },
   addMateria (params) {
     return Api().post('/materia', params)

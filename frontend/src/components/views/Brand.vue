@@ -2,7 +2,9 @@
   <div class="brand">
     <div class="formodal">
       <v-dialog v-model="dialog" max-width="800px">
-        <v-btn color="primary" dark slot="activator" class="mb-2">Thêm thương hiệu</v-btn>
+        <v-btn color="primary" dark slot="activator" class="mb-2"
+          >Thêm thương hiệu</v-btn
+        >
         <v-card>
           <v-card-title>
             <span class="headline">{{ formTitle }}</span>
@@ -11,14 +13,19 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field label="Tên" v-model="editedItem.brand_name"></v-text-field>
+                  <v-text-field
+                    label="Tên"
+                    v-model="editedItem.brand_name"
+                  ></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
+            <v-btn color="blue darken-1" flat @click.native="close"
+              >Cancel</v-btn
+            >
             <v-btn color="blue darken-1" flat @click.native="save">Save</v-btn>
           </v-card-actions>
         </v-card>
@@ -37,7 +44,7 @@
           <v-btn icon class="mx-0" @click="editItem(props.item)">
             <v-icon color="teal">edit</v-icon>
           </v-btn>
-          <v-btn icon class="mx-0" @click="deletebrand(props.item)">
+          <v-btn icon class="mx-0" @click="deleteBrand(props.item)">
             <v-icon color="pink">delete</v-icon>
           </v-btn>
         </td>
@@ -50,103 +57,98 @@
 </template>
 
 <script>
-import apiService from '@/Services/ApiService'
+import apiService from "@/Services/ApiService";
 export default {
-  name: 'brand',
-  data () {
+  name: "brand",
+  data() {
     return {
       brands: [],
       dialog: false,
       editedIndex: -1,
       editedItem: {
-        brand_name: '',
+        brand_name: ""
       },
       headers: [
         {
-          text: 'ID',
-          align: 'left',
+          text: "ID",
+          align: "left",
           sortable: true,
-          value: 'id'
+          value: "id"
         },
         {
-          text: 'Tên',
-          align: 'left',
+          text: "Tên",
+          align: "left",
           sortable: true,
-          value: 'brand_name'
+          value: "brand_name"
         },
-        { text: 'Actions', value: 'name', sortable: false }
+        { text: "Actions", value: "name", sortable: false }
       ]
-    }
+    };
   },
-  mounted () {
-    this.getbrand()
+  mounted() {
+    this.getbrand();
   },
   computed: {
-    formTitle () {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+    formTitle() {
+      return this.editedIndex === -1 ? "New Item" : "Edit Item";
     }
   },
   watch: {
-    dialog (val) {
-      val || this.close()
+    dialog(val) {
+      val || this.close();
     }
   },
   methods: {
-    async getbrand () {
-      const response = await apiService.fetchBrands()
-      this.brands = response.data
+    async getbrand() {
+      const response = await apiService.fetchBrands();
+      this.brands = response.data;
     },
 
-    async save () {
-      try {
-        if (this.editedIndex === -1) {
-          await apiService.addbrand(this.editedItem)
-          this.brands.push(this.editedItem)
-        } else {
-          await apiService.updatebrand(this.editedItem)
-          Object.assign(this.brands[this.editedIndex], this.editedItem)
-        }
-      } catch (err) {
-        return console.log(err.message)
-      } finally {
-        this.close()
+    save() {
+      if (this.editedIndex === -1) {
+        apiService.addBrand(this.editedItem);
+        this.brands.push(this.editedItem);
+      } else {
+        apiService.updateBrand(this.editedItem);
+        Object.assign(this.brands[this.editedIndex], this.editedItem);
       }
+      this.close()
     },
 
-    async deletebrand (brand) {
-      const $this = this
-      $this.$swal({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
-        if (result.value) {
-          apiService.deletebrand(brand.idbrand)
-          const index = this.brands.indexOf(brand)
-          this.brands.splice(index, 1)
-        }
-      })
+    async deleteBrand(brand) {
+      const $this = this;
+      $this
+        .$swal({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, delete it!"
+        })
+        .then(result => {
+          if (result.value) {
+            apiService.deleteBrand(brand.id);
+            const index = this.brands.indexOf(brand);
+            this.brands.splice(index, 1);
+          }
+        });
     },
 
-    editItem (item) {
-      this.editedIndex = this.brands.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialog = true
+    editItem(item) {
+      this.editedIndex = this.brands.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
     },
 
-    close () {
-      this.dialog = false
+    close() {
+      this.dialog = false;
       setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      }, 300)
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300);
     }
   }
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

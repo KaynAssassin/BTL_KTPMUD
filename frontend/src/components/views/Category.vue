@@ -44,7 +44,7 @@
           <v-btn icon class="mx-0" @click="editItem(props.item)">
             <v-icon color="teal">edit</v-icon>
           </v-btn>
-          <v-btn icon class="mx-0" @click="deleteAula(props.item)">
+          <v-btn icon class="mx-0" @click="deleteCategory(props.item)">
             <v-icon color="pink">delete</v-icon>
           </v-btn>
         </td>
@@ -114,7 +114,7 @@ export default {
       this.close()
     },
 
-    async deleteAula(category_item) {
+    async deleteCategory(category_item) {
       const $this = this;
       $this
         .$swal({
