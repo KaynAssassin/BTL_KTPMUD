@@ -1,4 +1,5 @@
 const Brands = require('../models').Brand;
+const Products = require("../models").Product;
 
 exports.getBrand = function (req, res) {
   Brands.findAll({}).then(response => {
@@ -31,4 +32,10 @@ exports.deleteBrand = function (req, res) {
       id: req.query.id
     }
   })
+  Products.destroy({
+    where:{
+      brand_id:req.query.id
+    }
+  })
+  
 }

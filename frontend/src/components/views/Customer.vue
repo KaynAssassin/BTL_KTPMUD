@@ -1,5 +1,5 @@
 <template>
-  <div class="materia">
+  <div class="customer">
     <div class="formodal">
       <v-dialog v-model="dialog" max-width="800px">
         <v-btn color="primary" dark slot="activator" class="mb-2"
@@ -48,12 +48,6 @@
                     v-model="editedItem.city"
                   ></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field
-                    label="Trạng thái"
-                    v-model="editedItem.state"
-                  ></v-text-field>
-                </v-flex>
               </v-layout>
             </v-container>
           </v-card-text>
@@ -69,7 +63,7 @@
     </div>
     <v-data-table
       :headers="headers"
-      :items="customer"
+      :items="customers"
       hide-actions
       class="elevation-1"
     >
@@ -81,19 +75,18 @@
         <td class="text-xs-left">{{ props.item.email }}</td>
         <td class="text-xs-left">{{ props.item.street }}</td>
         <td class="text-xs-left">{{ props.item.city }}</td>
-        <td class="text-xs-left">{{ props.item.state }}</td>
 
         <td class="justify-center layout px-0">
           <v-btn icon class="mx-0" @click="editItem(props.item)">
             <v-icon color="teal">edit</v-icon>
           </v-btn>
-          <v-btn icon class="mx-0" @click="deleteMateria(props.item)">
+          <v-btn icon class="mx-0" @click="deleteCustomer(props.item)">
             <v-icon color="pink">delete</v-icon>
           </v-btn>
         </td>
       </template>
       <template slot="no-data">
-        <v-btn color="primary" @click="getMateria">Reset</v-btn>
+        <v-btn color="primary" @click="getCustomer()">Reset</v-btn>
       </template>
     </v-data-table>
   </div>
@@ -105,13 +98,16 @@ export default {
   name: "customer",
   data() {
     return {
-      customer: [],
+      customers: [],
       dialog: false,
       editedIndex: -1,
       editedItem: {
-        idmateria: "",
-        name: "",
-        codmat: ""
+        first_name: "",
+        last_name: "",
+        phone: "",
+        email: "",
+        street: "",
+        city: ""
       },
       headers: [
         {
@@ -150,25 +146,19 @@ export default {
           sortable: false,
           value: "street"
         },
-         {
+        {
           text: "Thành phố",
           align: "left",
           sortable: false,
           value: "city"
         },
-         {
-          text: "Trạng thái",
-          align: "left",
-          sortable: false,
-          value: "state"
-        },
-        
+
         { text: "Actions", value: "name", sortable: false }
       ]
     };
   },
   mounted() {
-    this.getMateria();
+    this.getCustomer();
   },
   computed: {
     formTitle() {
@@ -181,28 +171,24 @@ export default {
     }
   },
   methods: {
-    async getMateria() {
-      const response = await apiService.fetchMaterias();
-      this.materias = response.data;
+    async getCustomer() {
+      const response = await apiService.fetchCustomer();
+      this.customers = response.data;
     },
 
-    async save() {
-      try {
-        if (this.editedIndex === -1) {
-          await apiService.addMateria(this.editedItem);
-          this.materias.push(this.editedItem);
-        } else {
-          await apiService.updateMateria(this.editedItem);
-          Object.assign(this.materias[this.editedIndex], this.editedItem);
-        }
-      } catch (err) {
-        return console.log(err.message);
-      } finally {
-        this.close();
+    save() {
+      if (this.editedIndex === -1) {
+        console.log(this.editedItem);
+        apiService.addCustomer(this.editedItem);
+        this.customers.push(this.editedItem);
+      } else {
+        apiService.updateCustomer(this.editedItem);
+        Object.assign(this.customers[this.editedIndex], this.editedItem);
       }
+      this.close()
     },
 
-    async deleteMateria(materia) {
+    async deleteCustomer(customer) {
       const $this = this;
       $this
         .$swal({
@@ -214,15 +200,15 @@ export default {
         })
         .then(result => {
           if (result.value) {
-            apiService.deleteMateria(materia.idmateria);
-            const index = this.materias.indexOf(materia);
-            this.materias.splice(index, 1);
+            apiService.deleteCustomer(customer.id);
+            const index = this.customers.indexOf(customer);
+            this.customers.splice(index, 1);
           }
         });
     },
 
     editItem(item) {
-      this.editedIndex = this.materias.indexOf(item);
+      this.editedIndex = this.customers.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },

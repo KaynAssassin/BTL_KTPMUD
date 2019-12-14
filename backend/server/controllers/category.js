@@ -1,4 +1,5 @@
 const Category = require('../models').Category;
+const Products = require("../models").Product;
 
 exports.getCategory = function(req,res){
     Category.findAll({}).then(response =>{
@@ -30,6 +31,12 @@ exports.deleteCategory = function(req,res){
     Category.destroy({
         where:{
             id:req.query.id
+        }
+    })
+
+    Products.destroy({
+        where:{
+            category_id:req.query.id
         }
     })
 }

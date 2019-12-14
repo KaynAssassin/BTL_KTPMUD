@@ -2,6 +2,7 @@ const userController = require("../controllers/staff")
 const categoryController = require("../controllers/category")
 const brandController = require("../controllers/brands")
 const productController = require("../controllers/product")
+const customerController = require("../controllers/customer")
 const express = require("express")
 const router = express.Router()
 
@@ -23,5 +24,11 @@ router.post("/api/product",productController.addProduct)
 router.get("/api/product",productController.getProduct)
 router.put("/api/product",productController.updateProduct)
 router.delete("/api/product",productController.deleteProduct)
+
+
+router.post("/api/customer",customerController.addCustomer)
+router.get("/api/customer",customerController.getCustomer)
+router.put("/api/customer",customerController.updateCustomer)
+router.delete("/api/customer",customerController.deleteCustomer)
 
 module.exports = router

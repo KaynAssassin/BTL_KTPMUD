@@ -192,7 +192,7 @@
         </v-container>
       </v-content>
       <v-footer app fixed color="primary" dark>
-        <span>&copy; 2019-Kayn Assassin</span>
+        <span>~~~~&copy; 2019-Shieda Kayn - Nhung Hong - Hoang Anh - Son Hoang - Cong Chinh--------BTL Kĩ thuật phần mềm ứng dụng~~~~</span>
       </v-footer>
     </v-app>
   </div>

@@ -48,18 +48,18 @@ export default {
   deleteProduct (id) {
     return Api().delete('/product/?id=' + id)
   },
-  addMateria (params) {
-    return Api().post('/materia', params)
+  addCustomer (params) {
+    return Api().post('/customer', params)
   },
-  updateMateria (params) {
-    return Api().put('/materia/' + params.idmateria, params)
+  updateCustomer (params) {
+    return Api().put('/customer/?id=' + params.id, params)
   },
 
-  fetchHorarios () {
-    return Api().get('/horario')
+  fetchCustomer () {
+    return Api().get('/customer')
   },
-  deleteHorario (id) {
-    return Api().delete('/horario/' + id)
+  deleteCustomer (id) {
+    return Api().delete('/cutomer/?id=' + id)
   },
   addHorario (params) {
     return Api().post('/materia', params)
