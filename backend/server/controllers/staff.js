@@ -56,3 +56,37 @@ exports.login = function(req,res){
   })
  
 }
+
+exports.getStaff = function(req,res){
+  Staff.findAll({}).then(response=>{
+    res.json(response.map(function(item){
+      return item.dataValues
+    }))
+  })
+}
+
+exports.updateStaff = function(req,res){
+  Staff.update(req.body,{
+    where:{
+      id:req.body.id
+    }
+  })
+}
+
+exports.deleteStaff = function(req,res){
+  Staff.destroy({
+    where:{
+      id:req.query.id
+    }
+  })
+}
+
+exports.addStaff = function(req,res){
+  let staff = req.body;
+  staff.store_id = -1;
+  staff.avatar = '';
+  staff.password = crypto.createHash('sha1')
+  .update(staff.password)
+  .digest('hex');
+  Staff.create(staff)
+}

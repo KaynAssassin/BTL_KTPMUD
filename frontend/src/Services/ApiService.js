@@ -59,12 +59,20 @@ export default {
     return Api().get('/customer')
   },
   deleteCustomer (id) {
-    return Api().delete('/cutomer/?id=' + id)
+    return Api().delete('/customer/?id=' + id)
   },
-  addHorario (params) {
-    return Api().post('/materia', params)
+
+  fetchStaff(){
+    return Api().get('/staff')
   },
-  updateHorario (params) {
-    return Api().put('/horario/' + params.idhorario, params)
+  addStaff (params) {
+    return Api().post('/staff', params)
+  },
+  updateStaff (params) {
+    return Api().put('/staff/?id=' + params.id, params)
+  },
+  deleteStaff(id){
+    return Api().delete('/staff/?id='+id)
   }
+
 }

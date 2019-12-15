@@ -72,13 +72,13 @@ export default {
         {
           text: "ID",
           align: "left",
-          sortable: true,
+          sortable: false,
           value: "id"
         },
         {
           text: "Tên",
           align: "left",
-          sortable: true,
+          sortable: false,
           value: "category_name"
         },
         { text: "Actions", value: "name", sortable: false }

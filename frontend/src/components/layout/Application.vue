@@ -12,7 +12,7 @@
             v-for="(item, i) in menu"
             :key="i"
             :to="{ path: item.path }"
-          >
+            >
             <v-list-tile-action>
               <v-icon v-html="item.icon"></v-icon>
             </v-list-tile-action>
@@ -66,7 +66,7 @@
             </v-list-tile>
           </v-list>
         </v-menu>
-        <v-btn v-else>{{role}}</v-btn>
+        <v-btn v-else>{{ role }}</v-btn>
         <v-dialog v-model="dialogLogin" max-width="800px">
           <v-card>
             <v-card-text>
@@ -192,7 +192,10 @@
         </v-container>
       </v-content>
       <v-footer app fixed color="primary" dark>
-        <span>~~~~&copy; 2019-Shieda Kayn - Nhung Hong - Hoang Anh - Son Hoang - Cong Chinh--------BTL Kĩ thuật phần mềm ứng dụng~~~~</span>
+        <span
+          >~~~~&copy; 2019-Shieda Kayn - Nhung Hong - Hoang Anh - Son Hoang -
+          Cong Chinh--------BTL Kĩ thuật phần mềm ứng dụng~~~~</span
+        >
       </v-footer>
     </v-app>
   </div>
@@ -204,7 +207,18 @@ import apiService from "@/Services/ApiService";
 export default {
   mounted() {
     this.path = this.$route.path;
-    this.role = this.getCookie("role")
+    this.role = this.getCookie("role");
+    if(this.role === 'staff'){
+      this.menu = [
+        { path: "/", label: "Trang chủ", icon: "home" },
+        { path: "/api/product", label: "Sản phẩm", icon: "list" },
+        { path: "/api/category", label: "Chuyên mục", icon: "class" },
+        { path: "/api/brand", label: "Thương hiệu", icon: "offline_bolt" },
+        { path: "/api/customer", label: "Khách hàng", icon: "description" },
+        { path: "/api/order", label: "Đơn hàng", icon: "event" },
+        { path: "/logout", label: "Đăng xuất", icon: "lock" }
+      ]
+    }
   },
   data() {
     return {
@@ -220,9 +234,10 @@ export default {
         { path: "/", label: "Trang chủ", icon: "home" },
         { path: "/api/product", label: "Sản phẩm", icon: "list" },
         { path: "/api/category", label: "Chuyên mục", icon: "class" },
-        { path:"/api/brand",label:"Thương hiệu",icon:"book"},
+        { path: "/api/brand", label: "Thương hiệu", icon: "offline_bolt" },
         { path: "/api/customer", label: "Khách hàng", icon: "description" },
         { path: "/api/order", label: "Đơn hàng", icon: "event" },
+        { path: "/api/staff", label: "Nhân viên", icon: "accessibility" },
         { path: "/logout", label: "Đăng xuất", icon: "lock" }
       ],
       items: {

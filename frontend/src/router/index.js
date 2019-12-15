@@ -5,7 +5,8 @@ import Product from '@/components/views/Product'
 import Category from '@/components/views/Category'
 import Customer from '@/components/views/Customer'
 import Brand from '@/components/views/Brand';
-import Order from '@/components/views/Order'
+import Order from '@/components/views/Order';
+import Staff from '@/components/views/Staff'
 import Logout from '@/components/views/Logout'
 import Vuetify from 'vuetify'
 import VueSweetalert2 from 'vue-sweetalert2'
@@ -56,6 +57,11 @@ export default new Router({
       path: '/api/order',
       name: 'Order',
       component: Order
+    },
+    {
+      path:'/api/staff',
+      name:'Staff',
+      component:Staff
     },
     {
       path: '/logout',

@@ -3,7 +3,7 @@
     <div class="formodal">
       <v-dialog v-model="dialog" max-width="800px">
         <v-btn color="primary" dark slot="activator" class="mb-2"
-          >Thêm sản phẩm</v-btn
+          >Thêm nhân viên</v-btn
         >
         <v-card>
           <v-card-title>
@@ -14,33 +14,47 @@
               <v-layout wrap>
                 <v-flex xs12 sm6 md4>
                   <v-text-field
-                    label="Tên sản phẩm"
-                    v-model="editedItem.product_name"
+                    label="First name"
+                    v-model="editedItem.first_name"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field
+                    label="Last name"
+                    v-model="editedItem.last_name"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field
+                    label="Email"
+                    v-model="editedItem.email"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field
+                    label="Phone"
+                    v-model="editedItem.phone"
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-select
-                    :items="brands"
-                    label="Thương hiệu"
-                    v-model="editedItem.brand_id"
-                    item-text="brand_name"
-                    item-value="id"
-                  ></v-select>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-select
-                    :items="categories"
-                    label="Chủng loại"
-                    v-model="editedItem.category_id"
-                    item-text="category_name"
-                    item-value="id"
+                    :items="chooseOne"
+                    label="Active"
+                    v-model="editedItem.active"
                   ></v-select>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field
-                    label="Giá"
-                    v-model="editedItem.price"
+                    label="Password"
+                    v-model="editedItem.password"
                   ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-select
+                    :items="roles"
+                    label="Role"
+                    v-model="editedItem.role"
+                  ></v-select>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -57,28 +71,31 @@
     </div>
     <v-data-table
       :headers="headers"
-      :items="products"
+      :items="Staffs"
       hide-actions
       class="elevation-1"
     >
       <template slot="items" slot-scope="props">
         <td class="text-xs-left">{{ props.item.id }}</td>
-        <td class="text-xs-left">{{ props.item.product_name }}</td>
-        <td class="text-xs-left">{{ getBrandName(props.item.brand_id) }}</td>
-        <td class="text-xs-left">{{ getCategoryName(props.item.category_id) }}</td>
-        <td class="text-xs-left">{{ new Date(+props.item.date_import) }}</td>
-        <td class="text-xs-left">{{ props.item.price }}</td>
+        <td class="text-xs-left">{{ props.item.first_name }}</td>
+        <td class="text-xs-left">{{ props.item.last_name }}</td>
+        <td class="text-xs-left">{{ props.item.email }}</td>
+        <td class="text-xs-left">{{ props.item.phone }}</td>
+        <td class="text-xs-left">{{ props.item.active }}</td>
+        <td class="text-xs-left">{{ props.item.password }}</td>
+        <td class="text-xs-left">{{ props.item.role }}</td>
+        
         <td class="justify-center layout px-0">
           <v-btn icon class="mx-0" @click="editItem(props.item)">
             <v-icon color="teal">edit</v-icon>
           </v-btn>
-          <v-btn icon class="mx-0" @click="deleteProduct(props.item)">
+          <v-btn icon class="mx-0" @click="deleteStaff(props.item)">
             <v-icon color="pink">delete</v-icon>
           </v-btn>
         </td>
       </template>
       <template slot="no-data">
-        <v-btn color="primary" @click="getProduct">Reset</v-btn>
+        <v-btn color="primary" @click="getStaff">Reset</v-btn>
       </template>
     </v-data-table>
   </div>
@@ -87,20 +104,29 @@
 <script>
 import apiService from "@/Services/ApiService";
 export default {
-  name: "Product",
+  name: "Staff",
   data() {
     return {
-      products: [],
+      Staffs: [],
       brands: [],
       categories: [],
       dialog: false,
       editedIndex: -1,
       editedItem: {
-        product_name: "",
-        brand_id: "",
-        category_id: "",
-        price: ""
+        first_name: '',
+        last_name: '',
+        email: '',
+        phone: '',
+        active: '',
+        password: '',
+        role: '',
       },
+      chooseOne:[
+      true,false
+      ],
+      roles:[
+        1,0
+      ],
       headers: [
         {
           text: "ID",
@@ -109,43 +135,54 @@ export default {
           value: "id"
         },
         {
-          text: "Tên sản phẩm",
+          text: "First name",
           align: "left",
           sortable: false,
-          value: "product_name"
+          value: "first_name"
         },
         {
-          text: "Thương hiệu",
+          text: "Last name",
           align: "left",
           sortable: false,
-          value: "brand_id"
+          value: "last_name"
         },
         {
-          text: "Chủng loại",
+          text: "Email",
           align: "left",
           sortable: false,
-          value: "category_id"
+          value: "email"
         },
         {
-          text: "Ngày thêm",
+          text: "Phone",
           align: "left",
           sortable: false,
-          value: "date_import"
+          value: "phone"
         },
         {
-          text: "Giá",
+          text: "Active",
           align: "left",
           sortable: false,
-          value: "price"
+          value: "active"
         },
+        {
+          text: "Password",
+          align: "left",
+          sortable: false,
+          value: "password"
+        },
+        {
+          text: "Role",
+          align: "left",
+          sortable: false,
+          value: "role"
+        },
+        
         { text: "Actions", value: "name", sortable: false }
       ]
     };
   },
   mounted() {
-    this.getProduct();
-    this.getbrand();
-    this.getCategory();
+    this.getStaff();
   },
   computed: {
     formTitle() {
@@ -158,52 +195,24 @@ export default {
     }
   },
   methods: {
-    async getProduct() {
-      const response = await apiService.fetchProduct();
-      this.products = response.data;
-    },
-
-    async getbrand() {
-      const response = await apiService.fetchBrands();
-      this.brands = response.data;
-    },
-
-    async getCategory() {
-      const response = await apiService.fetchCategory();
-      this.categories = response.data;
-    },
-
-    getBrandName(id){
-      for(let i of this.brands){
-        if(+i.id === +id){
-          return i.brand_name
-        }
-      }
-    },
-
-    getCategoryName(id){
-      for(let i of this.categories){
-        if(+i.id === +id){
-          return i.category_name
-        }
-      }
+    async getStaff() {
+      const response = await apiService.fetchStaff();
+      this.Staffs = response.data;
     },
 
     save() {
-      
       if (this.editedIndex === -1) {
-        this.editedItem.date_import = new Date().getTime().toString()
-        this.editedItem.price = +this.editedItem.price
-        apiService.addProduct(this.editedItem);
-        this.products.push(this.editedItem);
+        console.log(this.editedItem)
+        apiService.addStaff(this.editedItem);
+        this.Staffs.push(this.editedItem);
       } else {
-        apiService.updateProduct(this.editedItem);
-        Object.assign(this.products[this.editedIndex], this.editedItem);
+        apiService.updateStaff(this.editedItem);
+        Object.assign(this.Staffs[this.editedIndex], this.editedItem);
       }
-      this.close()
+      this.close();
     },
 
-    async deleteProduct(product) {
+    async deleteStaff(Staff) {
       const $this = this;
       $this
         .$swal({
@@ -215,15 +224,15 @@ export default {
         })
         .then(result => {
           if (result.value) {
-            apiService.deleteProduct(product.id);
-            const index = this.products.indexOf(product);
-            this.products.splice(index, 1);
+            apiService.deleteStaff(Staff.id);
+            const index = this.Staffs.indexOf(Staff);
+            this.Staffs.splice(index, 1);
           }
         });
     },
 
     editItem(item) {
-      this.editedIndex = this.products.indexOf(item);
+      this.editedIndex = this.Staffs.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },

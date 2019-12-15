@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
     password:DataTypes.STRING,
     store_id: DataTypes.INTEGER,
     role:DataTypes.INTEGER,
-    block: DataTypes.BOOLEAN,
     avatar: DataTypes.TEXT
   }, {});
   Staff.associate = function(models) {

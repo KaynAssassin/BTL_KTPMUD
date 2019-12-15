@@ -113,13 +113,13 @@ export default {
         {
           text: "ID",
           align: "left",
-          sortable: true,
+          sortable: false,
           value: "id"
         },
         {
           text: "First name",
           align: "left",
-          sortable: true,
+          sortable: false,
           value: "first_name"
         },
         {

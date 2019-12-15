@@ -44,13 +44,13 @@ export default {
         {
           text: "ID",
           align: "left",
-          sortable: true,
+          sortable: false,
           value: "id"
         },
         {
           text: "Customer ID",
           align: "left",
-          sortable: true,
+          sortable: false,
           value: "customer_id"
         },
         {

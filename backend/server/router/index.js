@@ -31,4 +31,9 @@ router.get("/api/customer",customerController.getCustomer)
 router.put("/api/customer",customerController.updateCustomer)
 router.delete("/api/customer",customerController.deleteCustomer)
 
+router.get("/api/staff",userController.getStaff)
+router.put("/api/staff",userController.updateStaff)
+router.delete("/api/staff",userController.deleteStaff)
+router.post("/api/staff",userController.addStaff)
+
 module.exports = router
